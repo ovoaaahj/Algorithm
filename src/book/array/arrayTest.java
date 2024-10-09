@@ -1,7 +1,6 @@
 package book.array;
 
-import java.util.Arrays;
-import java.util.TreeSet;
+import java.util.*;
 
 public class arrayTest {
     /**
@@ -27,7 +26,94 @@ public class arrayTest {
         return result;
     }
 
-//    public static int[] exam (int[] arr){
-//
-//    }
+    /**
+     * 프로그래머스 문제 : 모의고사
+     * 처음으로 풀어본 버전
+     * @param arr
+     * @return
+     */
+    public static int[] exam (int[] arr){
+        int[] firstMan = {1,2,3,4,5};
+        int[] secondMan = {2,1,2,3,2,4,2,5};
+        int[] thirdMan = {3,3,1,1,2,2,4,4,5,5};
+
+        int length = arr.length;
+        int firstCount = 0;
+        int secondCount = 0;
+        int thirdCount = 0;
+
+        for(int i=0;i<=length-1;i++){
+            if(arr[i]==firstMan[i%firstMan.length]) firstCount ++;
+            if(arr[i]==secondMan[i%secondMan.length]) secondCount ++;
+            if(arr[i]==thirdMan[i%thirdMan.length]) thirdCount ++;
+        }
+
+        int[] result = new int[1];
+
+        if(firstCount>=secondCount){
+            if(firstCount==secondCount){
+                if(firstCount == thirdCount){
+                    return new int[] {1,2,3};
+                }else{
+                    return new int[] {1,2};
+                }
+            } else if(firstCount>thirdCount){
+                return new int[] {1};
+            } else if(firstCount==thirdCount){
+                return new int[] {1,3};
+            }
+        }else if(secondCount>=thirdCount){
+          if(secondCount == thirdCount){
+              return new int[] {2,3};
+          }else{
+              return new int[] {2};
+          }
+        }else{
+            return new int[] {3};
+        }
+
+        return result;
+    }
+
+
+    /**
+     * 프로그래머스 문제 : 모의고사
+     * 다른 케이스 참고하여 수정한 버전
+     * @param arr
+     * @return
+     */
+    public static int[] examCase2 (int[] arr){
+        int[] firstMan = {1,2,3,4,5};
+        int[] secondMan = {2,1,2,3,2,4,2,5};
+        int[] thirdMan = {3,3,1,1,2,2,4,4,5,5};
+
+        int length = arr.length;
+        int firstCount = 0;
+        int secondCount = 0;
+        int thirdCount = 0;
+
+        for(int i=0;i<=length-1;i++){
+            if(arr[i]==firstMan[i%firstMan.length]) firstCount ++;
+            if(arr[i]==secondMan[i%secondMan.length]) secondCount ++;
+            if(arr[i]==thirdMan[i%thirdMan.length]) thirdCount ++;
+        }
+
+        int maxCount = Math.max(firstCount, Math.max(secondCount, thirdCount));
+
+        List<Integer> list = new ArrayList<>();
+        if (firstCount == maxCount) list.add(1);
+        if (secondCount == maxCount) list.add(2);
+        if (thirdCount == maxCount) list.add(3);
+
+        // 리턴 방법 1 stream을 활용하여 넘긴다. 보기엔 1번이 좋지만
+//        return list.stream().mapToInt(i -> i).toArray();
+
+        // 리턴 방법 2 직접 for문을 돌려 넣는다. 속도는 2번이 더 빠름
+        int[] answer = new int[list.size()];
+        int cnt = 0;
+        for(int num : list)
+            answer[cnt++] = num;
+
+        return answer;
+    }
 }
